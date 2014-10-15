@@ -47,3 +47,29 @@
   db/retrieve-maps." []
   (defonce db (db/mongo-setup (db/create-conn config/host config/port)
                               config/db config/user config/pwd)))
+
+(def test-user
+  [{:name "Bruce C. Miller"
+    :sexuality "Lithromantic"
+    :gender "Trigender"
+    :therian-species "Plantkin"
+    :trans-size "Rubenesque"
+    :headmates ["Steelfang Ringtails"
+                "Gleep"]
+    :trigger-words ["Food"
+                    "Spiders"
+                    "Monkey necklace"]
+    :trans-ethnicity "Eskimo"}
+   {:name "Erik J. Seppanen"
+    :sexuality "Pomosexual"
+    :gender "Genderfluid"
+    :therian-species "Shloof"
+    :trans-size "Transthin"
+    :headmates ["Indigo Child"
+                "Pyrofox"]
+    :trigger-words ["Uncle Gary"
+                    "The"
+                    "Homogenous"]
+    :trans-ethnicity "Finnish"}])
+
+;; (db/batch-insert-maps db "test-user" test-user)
