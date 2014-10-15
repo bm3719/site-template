@@ -2,6 +2,7 @@
 ;;;; interacting with the data at the REPL, or for general development.
 (ns user
   (:require [site-template.handler :as handler]
+            [site-template.config :as config]
             [site-template.db :as db]
             [site-template.email :as email]
             [site-template.crypto :as crypto]
@@ -31,9 +32,18 @@
           (.stop server))
         (.start server))))
 
+;; Note: You should call C-c C-l on any AOT namespaces prior to running this
+;; (e.g. security.clj).
 (defn refresh
   "Run this to refresh the project.  This will shut down the server if it's
   active first." []
   (when (and server (= (org.eclipse.jetty.server.Server/getState server) "STARTED"))
     (.stop server))
   (repl/refresh))
+
+(defn db-setup
+  "Activate MongoDB connection to test database.  Run this to create a var
+  named db that can then be used to pass to functions like
+  db/retrieve-maps." []
+  (defonce db (db/mongo-setup (db/create-conn config/host config/port)
+                              config/db config/user config/pwd)))
