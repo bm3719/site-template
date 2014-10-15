@@ -1,0 +1,56 @@
+#+STARTUP: showall
+
+* site-template
+
+A template for a site that includes the following:
+- Ring/Compojure-centric project structure and routing handling.
+- A few test endpoints.
+- ✓ The [[http://thinkrelevance.com/blog/2013/06/04/clojure-workflow-reloaded][reloaded workflow]].
+- Monger integration with at least some basic CRUD.
+- Spring Security integration.
+- Role-based access rules.
+- ✓ Email (just drop in email.clj).
+- ✓ Crypto (just drop in crypto.clj).
+- Unit tests.
+- A test index.html page.
+- Architecture-level macros, if any.
+
+
+** Usage
+
+Edit config.clj to set MongoDB settings.  You'll probably at least want to
+change the db name to whatever ircop is pointed at.
+
+Then to run the data generator:
+
+#+BEGIN_SRC sh
+lein repl :headless
+#+END_SRC
+
+Connect to the running application and in a REPL buffer run
+
+#+BEGIN_SRC clojure
+(boot)
+#+END_SRC
+
+Since this project implements a customized version of the "reloaded" workflow,
+you can reset everything (including server settings) without restarting the
+REPL by running
+
+#+BEGIN_SRC sh
+(refresh)
+(reset)
+#+END_SRC
+
+Alternatively, you can just start the server with
+
+#+BEGIN_SRC sh
+lein ring server
+#+END_SRC
+
+
+** TODO
+
+Some other things to consider are:
+- [[https://github.com/clojure/test.check][test.check]]
+- [[http://clojure-liberator.github.io/][Liberator]]
