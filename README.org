@@ -18,8 +18,7 @@ A template for a site that includes the following:
 
 ** Usage
 
-Edit config.clj to set MongoDB settings.  You'll probably at least want to
-change the db name to whatever ircop is pointed at.
+Edit config.clj to set MongoDB settings.
 
 Then to run the data generator:
 
@@ -49,7 +48,7 @@ lein ring server
 #+END_SRC
 
 
-** TODO
+** Under Consideration
 
 Some other things to consider are:
 - [[https://github.com/clojure/test.check][test.check]]
