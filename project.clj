@@ -21,7 +21,7 @@
   :jvm-opts ["-Xmx3g"]
   :main site-template.handler
   :repl-options {:init-ns user}
-  :aot [site-template.security]
+;  :aot [site-template.security]
   :profiles {:dev {:resource-paths ["dev"]
                    :dependencies [[javax.servlet/servlet-api "2.5"]
                                   [ring-mock "0.1.5"]

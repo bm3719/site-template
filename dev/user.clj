@@ -6,10 +6,13 @@
             [site-template.db :as db]
             [site-template.email :as email]
             [site-template.crypto :as crypto]
+;            [site-template.security :as security]
             [ring.adapter.jetty :as jetty]
             [clojure.pprint :refer [pp pprint]]
             [clojure.repl :refer [doc]]
-            [clojure.tools.namespace.repl :as repl]))
+            [clojure.tools.namespace.repl :as repl]
+            [cheshire.generate :as generate]
+            [cheshire.core :as cheshire]))
 
 ;; Global Var that holds the server.
 (def server nil)
@@ -32,11 +35,15 @@
           (.stop server))
         (.start server))))
 
-;; Note: You should call C-c C-l on any AOT namespaces prior to running this
-;; (e.g. security.clj).
+;; Note: You should manually load (in Emacs: C-c C-l) on the
+;; site_template/security.clj file prior to running this, if it's a dependency
+;; anywhere.  You only have to do this once.
 (defn refresh
   "Run this to refresh the project.  This will shut down the server if it's
-  active first." []
+  active first.  If you get a compilation error, you may have to manually run:
+
+  (clojure.tools.namespace.repl/refresh)" []
+;  (load-file "src/site_template/security.clj")
   (when (and server (= (org.eclipse.jetty.server.Server/getState server) "STARTED"))
     (.stop server))
   (repl/refresh))
@@ -57,7 +64,7 @@
     :headmates ["Steelfang Ringtails"
                 "Gleep"]
     :trigger-words ["Food"
-                    "Spiders"
+                    "Homogenous"
                     "Monkey necklace"]
     :trans-ethnicity "Eskimo"}
    {:name "Erik J. Seppanen"
@@ -65,11 +72,15 @@
     :gender "Genderfluid"
     :therian-species "Shloof"
     :trans-size "Transthin"
-    :headmates ["Indigo Child"
+    :headmates ["Indigo Child" 
                 "Pyrofox"]
     :trigger-words ["Uncle Gary"
                     "The"
-                    "Homogenous"]
+                    "Fishmonger"]
     :trans-ethnicity "Finnish"}])
 
-;; (db/batch-insert-maps db "test-user" test-user)
+(defn create-test-data
+  "Inserts the test map into MongoDB.  Run db-setup first.  Only needs to be
+  run once." []
+  (db/batch-insert-maps db "test-user" test-user))
+
