@@ -6,12 +6,12 @@
             [monger.result :as res]
             [monger.query :as q])
   (:import [org.bson.types ObjectId]
-           [com.mongodb MongoClient DB WriteConcern])
+           [com.mongodb MongoClient DB WriteConcern MongoClientOptions])
   (:gen-class))
 
 (defn create-conn
   "Creates the connection to MongoDB." [host port]
-  (m/connect (m/server-address host port)))
+  (m/connect (m/server-address host port) (.. MongoClientOptions builder build)))
 
 (defn mongo-setup
   "Sets connection parameters and returns the DB object, under the assumption
@@ -44,3 +44,4 @@
 (defn mongo-shutdown
   "Disconnect from MongoDB." [conn]
   (m/disconnect conn))
+

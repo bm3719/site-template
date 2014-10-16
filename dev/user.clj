@@ -84,3 +84,8 @@
   run once." []
   (db/batch-insert-maps db "test-user" test-user))
 
+;; (defn analyze-key
+;;   "Creates a report of the statistical distribution of values associated with a
+;;   key, across a dataset (a collection of maps)." [key ds]
+;;   (let [vals ])
+;;   )
