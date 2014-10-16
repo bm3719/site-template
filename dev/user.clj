@@ -66,7 +66,7 @@
     :trigger-words ["Food"
                     "Homogenous"
                     "Monkey necklace"]
-    :trans-ethnicity "Eskimo"}
+    :trans-ethnicity "German"}
    {:name "Erik J. Seppanen"
     :sexuality "Pomosexual"
     :gender "Genderfluid"
@@ -77,15 +77,23 @@
     :trigger-words ["Uncle Gary"
                     "The"
                     "Fishmonger"]
-    :trans-ethnicity "Finnish"}])
+    :trans-ethnicity "Finnish"}
+   {:name "Josh Q. Lents"
+    :sexuality "Autosexual"
+    :gender "Bi-androgynous"
+    :therian-species "Pandakin"
+    :trans-size "Rubenesque"
+    :headmates ["Wayne Border"
+                "President Obama"]
+    :trigger-words ["Doctor"]
+    :trans-ethnicity "German"}])
 
 (defn create-test-data
   "Inserts the test map into MongoDB.  Run db-setup first.  Only needs to be
   run once." []
   (db/batch-insert-maps db "test-user" test-user))
 
-;; (defn analyze-key
-;;   "Creates a report of the statistical distribution of values associated with a
-;;   key, across a dataset (a collection of maps)." [key ds]
-;;   (let [vals ])
-;;   )
+(defn analyze-key
+  "Creates a report of the statistical distribution of values associated with a
+  key, across a dataset (a collection of maps)." [key ds]
+  (map (fn [v] [(first v) (count v)]) (partition-by identity (sort (map key ds)))))
