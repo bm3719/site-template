@@ -37,11 +37,10 @@
   (col/find-maps db col))
 (defn retrieve-map
   "Get a document from a collection, given some criteria.
-  e.g. (retrieve-map \"person\" {:nameFirst \"JOHN\"}"
+  e.g. (retrieve-map \"person\" {:nameFirst \"JOHN\"})"
   [db col m]
   (col/find-one-as-map db col m))
 
 (defn mongo-shutdown
   "Disconnect from MongoDB." [conn]
   (m/disconnect conn))
-
