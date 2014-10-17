@@ -26,7 +26,7 @@ Then to run the data generator:
 lein repl :headless
 #+END_SRC
 
-Connect to the running application and in a REPL buffer run
+Connect to the running application and in a REPL buffer run:
 
 #+BEGIN_SRC clojure
 (boot)
@@ -34,17 +34,21 @@ Connect to the running application and in a REPL buffer run
 
 Since this project implements a customized version of the "reloaded" workflow,
 you can reset everything (including server settings) without restarting the
-REPL by running
+REPL by running:
 
 #+BEGIN_SRC sh
 (refresh)
 (reset)
 #+END_SRC
 
-Alternatively, you can just start the server with
+Currently, you'll need to evaluate the security.clj file first though.  To do
+so, open it and eval it with C-c C-l <Enter>.
 
-#+BEGIN_SRC sh
-lein ring server
+If you ever get into a state where the project didn't reload completely due to
+an error, run this once you've fixed the error:
+
+#+BEGIN_SRC clojure
+(clojure.tools.namespace.repl/refresh)
 #+END_SRC
 
 
