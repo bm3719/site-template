@@ -1,7 +1,7 @@
 (ns site-template.handler
   (:require [site-template.config :as config]
             [site-template.db :as db]
-;            [site-template.security :as security]
+;;            [site-template.security :as security]
             [cheshire.core :refer :all :as cheshire]
             [compojure.core :refer :all]
             [compojure.handler :as handler]
@@ -35,16 +35,17 @@
    :headers {"Content-Type" "text/html; charset=utf-8"}
    :body "Not found"})
 
-(defn response
-  "Create a response." [& args]
-  (let [conn (db/create-conn config/host config/port)
-        db (db/mongo-setup conn config/db config/user config/pwd)]
-    (try (json-200 (db/retrieve-maps db "test-user"))
-         (finally (db/mongo-shutdown conn)))))
+(defmacro resp "Create a response" [entity-name & body]
+  `(let [~'conn (db/create-conn config/host config/port)
+         ~'db (db/mongo-setup ~'conn config/db config/user config/pwd)]
+     (try (json-200 (db/retrieve-maps ~'db ~entity-name))
+          (finally (db/mongo-shutdown ~'conn)))))
 
 (defroutes app-routes
-  (GET "/test-user/" [] (response ""))
+  (GET "/test-user/" [] (resp "test-user"))
   (route/resources "/")
   (route/not-found "Not Found"))
 
 (def app (handler/site app-routes))
+
+
