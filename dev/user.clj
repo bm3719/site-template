@@ -92,8 +92,3 @@
   "Inserts the test map into MongoDB.  Run db-setup first.  Only needs to be
   run once." []
   (db/batch-insert-maps db "test-user" test-user))
-
-(defn analyze-key
-  "Creates a report of the statistical distribution of values associated with a
-  key, across a dataset (a collection of maps)." [key ds]
-  (map (fn [v] [(first v) (count v)]) (partition-by identity (sort (map key ds)))))
