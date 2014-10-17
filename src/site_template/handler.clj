@@ -6,7 +6,8 @@
             [compojure.core :refer :all]
             [compojure.handler :as handler]
             [compojure.route :as route]
-            [cheshire.generate :as generate])
+            [cheshire.generate :as generate]
+            [ring.util.response :as resp])
   (:import [org.springframework.security.core.context SecurityContextHolder]
            [org.eclipse.jetty.servlet ServletHolder ServletContextHandler FilterHolder]
            [org.springframework.web.context ContextLoaderListener]
@@ -43,6 +44,7 @@
 
 (defroutes app-routes
   (GET "/test-user/" [] (resp "test-user"))
+  (GET "/" [] (resp/redirect "/index.html"))
   (route/resources "/")
   (route/not-found "Not Found"))
 
