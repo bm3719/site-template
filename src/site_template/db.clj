@@ -11,7 +11,7 @@
 
 (defn create-conn
   "Creates the connection to MongoDB." [host port]
-  (m/connect (m/server-address host port) (.. MongoClientOptions builder build)))
+  (m/connect (m/server-address host port) (m/mongo-options {:connections-per-host 100})))
 
 (defn mongo-setup
   "Sets connection parameters and returns the DB object, under the assumption
