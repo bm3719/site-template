@@ -12,7 +12,7 @@ A template for a site that includes the following:
 - ✓ Email (just drop in email.clj).
 - ✓ Crypto (just drop in crypto.clj).
 - Unit tests.
-- A test index.html page.
+- ✓ A test index.html page.
 - Architecture-level macros, if any.
 
 
