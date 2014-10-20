@@ -23,24 +23,29 @@
 ;;; Data insertion.
 (defn insert-map
   "Given a collection, insert a map as a document."
-  [db col m]
+  [col m]
   (res/ok? (col/insert db col map)))
 (defn batch-insert-maps
   "Given a collection, insert a vector of maps."
-  [db col v]
+  [col v]
   (res/ok? (col/insert-batch db col v)))
 
 ;;; Data retrieval.
 (defn retrieve-maps
   "Get all the documents from a collection."
-  [db col]
+  [col]
   (col/find-maps db col))
 (defn retrieve-map
   "Get a document from a collection, given some criteria.
   e.g. (retrieve-map \"person\" {:nameFirst \"JOHN\"})"
-  [db col m]
+  [col m]
   (col/find-one-as-map db col m))
 
 (defn mongo-shutdown
   "Disconnect from MongoDB." [conn]
   (m/disconnect conn))
+
+(defn db-setup
+  "Create global db object.  This assumes we'll only use one db."
+  [host port db user pwd]
+  (defonce db (mongo-setup (create-conn host port) db user pwd)))

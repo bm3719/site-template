@@ -16,9 +16,8 @@
            [java.security.cert PKIXParameters]
            [java.security KeyStore]))
 
-;; Create global db object.
-(defonce db (db/mongo-setup (db/create-conn config/host config/port)
-                              config/db config/user config/pwd))
+;; Setup the global DB object.
+(db/db-setup config/host config/port config/db config/user config/pwd)
 
 ;; (defn wrap-reload-spring [app]
 ;;   "Reload the Spring application context on every HTTP request."
@@ -48,7 +47,7 @@
 
 (defmacro response
   "Add more stuff here later." [entity-name & vars]
-  `(json-200 (db/retrieve-maps db ~entity-name)))
+  `(json-200 (db/retrieve-maps ~entity-name)))
 
 (defroutes app-routes
   (GET "/test-user/" [] (response "test-user"))

@@ -35,7 +35,7 @@
           (.stop server))
         (.start server))))
 
-;; Note: You should manually load (in Emacs: C-c C-l) on the
+;; Note: You should manually load (in Emacs: C-c C-l) the
 ;; site_template/security.clj file prior to running this, if it's a dependency
 ;; anywhere.  You only have to do this once.
 (defn refresh
@@ -47,13 +47,6 @@
   (when (and server (= (org.eclipse.jetty.server.Server/getState server) "STARTED"))
     (.stop server))
   (repl/refresh))
-
-(defn db-setup
-  "Activate MongoDB connection to test database.  Run this to create a var
-  named db that can then be used to pass to functions like
-  db/retrieve-maps." []
-  (defonce db (db/mongo-setup (db/create-conn config/host config/port)
-                              config/db config/user config/pwd)))
 
 (def test-user
   [{:name "Bruce C. Miller"
@@ -91,4 +84,4 @@
 (defn create-test-data
   "Inserts the test map into MongoDB.  Run db-setup first.  Only needs to be
   run once." []
-  (db/batch-insert-maps db "test-user" test-user))
+  (db/batch-insert-maps "test-user" test-user))
