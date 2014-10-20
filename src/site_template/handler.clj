@@ -16,6 +16,10 @@
            [java.security.cert PKIXParameters]
            [java.security KeyStore]))
 
+;; Create global db object.
+(defonce db (db/mongo-setup (db/create-conn config/host config/port)
+                              config/db config/user config/pwd))
+
 ;; (defn wrap-reload-spring [app]
 ;;   "Reload the Spring application context on every HTTP request."
 ;;   (fn [req]
@@ -36,18 +40,22 @@
    :headers {"Content-Type" "text/html; charset=utf-8"}
    :body "Not found"})
 
-(defmacro resp "Create a response" [entity-name & body]
-  `(let [~'conn (db/create-conn config/host config/port)
-         ~'db (db/mongo-setup ~'conn config/db config/user config/pwd)]
-     (try (json-200 (db/retrieve-maps ~'db ~entity-name))
-          (finally (db/mongo-shutdown ~'conn)))))
+;; (defmacro resp "Create a response" [entity-name & body]
+;;   `(let [~'conn (db/create-conn config/host config/port)
+;;          ~'db (db/mongo-setup ~'conn config/db config/user config/pwd)]
+;;      (try (json-200 (db/retrieve-maps ~'db ~entity-name))
+;;           (finally (db/mongo-shutdown ~'conn)))))
+
+(defmacro response
+  "Add more stuff here later." [entity-name & vars]
+  `(json-200 (db/retrieve-maps db ~entity-name)))
 
 (defroutes app-routes
-  (GET "/test-user/" [] (resp "test-user"))
+  (GET "/test-user/" [] (response "test-user"))
+  (GET "/test-user/:id" [id] (response "test-user" id))
   (GET "/" [] (resp/redirect "/index.html"))
   (route/resources "/")
   (route/not-found "Not Found"))
 
-(def app (handler/site app-routes))
-
-
+(def app
+  (handler/site app-routes))
