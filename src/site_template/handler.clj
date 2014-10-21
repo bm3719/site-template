@@ -46,8 +46,9 @@
 ;;           (finally (db/mongo-shutdown ~'conn)))))
 
 (defmacro response
-  "Add more stuff here later." [entity-name & vars]
-  `(json-200 (db/retrieve-maps ~entity-name)))
+  "Add more stuff here later."
+  ([entity-name] `(json-200 (db/get-maps ~entity-name)))
+  ([entity-name id] `(json-200 (db/get-by-id ~entity-name ~id))))
 
 (defroutes app-routes
   (GET "/test-user/" [] (response "test-user"))

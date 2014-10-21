@@ -33,6 +33,8 @@
       (do
         (when (= (org.eclipse.jetty.server.Server/getState server) "STARTED")
           (.stop server))
+        (when (nil? db/db)
+          (db/db-setup))
         (.start server))))
 
 ;; Note: You should manually load (in Emacs: C-c C-l) the
@@ -46,6 +48,8 @@
 ;  (load-file "src/site_template/security.clj")
   (when (and server (= (org.eclipse.jetty.server.Server/getState server) "STARTED"))
     (.stop server))
+  (when (not= db/conn nil)
+    (db/mongo-shutdown db/conn))
   (repl/refresh))
 
 (def test-user
