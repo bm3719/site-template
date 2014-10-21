@@ -23,6 +23,16 @@
   (m/set-default-write-concern! WriteConcern/JOURNAL_SAFE)
   (m/get-db conn db))
 
+(defn mongo-shutdown
+  "Disconnect from MongoDB." [conn]
+  (m/disconnect conn))
+
+(defn db-setup
+  "Create global db object.  This assumes we'll only use one db."
+  [host port db user pwd]
+  (def conn (create-conn host port))
+  (def db (mongo-setup conn db user pwd)))
+
 ;;; Data insertion.
 
 (defn insert-map
@@ -51,13 +61,3 @@
 (defn get-by-id
   "Get a document by _id." [col id]
   (col/find-one-as-map db col {:_id (ObjectId. id)}))
-
-(defn mongo-shutdown
-  "Disconnect from MongoDB." [conn]
-  (m/disconnect conn))
-
-(defn db-setup
-  "Create global db object.  This assumes we'll only use one db."
-  [host port db user pwd]
-  (def conn (create-conn host port))
-  (def db (mongo-setup conn db user pwd)))
