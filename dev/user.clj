@@ -88,4 +88,4 @@
 (defn create-test-data
   "Inserts the test map into MongoDB.  Run db-setup first.  Only needs to be
   run once." []
-  (db/batch-insert-maps "test-user" test-user))
+  (db/put-maps "test-user" test-user))

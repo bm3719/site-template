@@ -7,7 +7,7 @@
   <button id="button1">all test-user records</button>
   <script type="text/javascript">
    $('#button1').click(function() {
-     $.getJSON("http://localhost:3000/test-user/544126ed3004dc142477a227",
+     $.getJSON("http://localhost:3000/test-user/",
                function(data) {
        var html = ""
        for (var i = 0; i<data.length; i++) {

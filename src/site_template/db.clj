@@ -35,12 +35,12 @@
 
 ;;; Data insertion.
 
-(defn insert-map
+(defn put-map
   "Given a collection, insert a map as a document."
   [col m]
   (res/ok? (col/insert db col map)))
 
-(defn batch-insert-maps
+(defn put-maps
   "Given a collection, insert a vector of maps."
   [col v]
   (res/ok? (col/insert-batch db col v)))
