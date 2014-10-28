@@ -6,7 +6,7 @@
             [site-template.db :as db]
             [site-template.email :as email]
             [site-template.crypto :as crypto]
-;            [site-template.security :as security]
+            [site-template.security :as security]
             [ring.adapter.jetty :as jetty]
             [clojure.pprint :refer [pp pprint]]
             [clojure.repl :refer [doc]]
@@ -37,15 +37,11 @@
           (db/db-setup))
         (.start server))))
 
-;; Note: You should manually load (in Emacs: C-c C-l) the
-;; site_template/security.clj file prior to running this, if it's a dependency
-;; anywhere.  You only have to do this once.
 (defn refresh
   "Run this to refresh the project.  This will shut down the server if it's
   active first.  If you get a compilation error, you may have to manually run:
 
   (clojure.tools.namespace.repl/refresh)" []
-;  (load-file "src/site_template/security.clj")
   (when (and server (= (org.eclipse.jetty.server.Server/getState server) "STARTED"))
     (.stop server))
   (when (not= db/conn nil)
@@ -89,3 +85,7 @@
   "Inserts the test map into MongoDB.  Run db-setup first.  Only needs to be
   run once." []
   (db/put-maps "test-user" test-user))
+
+;; Since security is AOT-ed, it'll need to be loading into the REPL's state for
+;; refresh to work.
+(load-file "src/site_template/security.clj")
